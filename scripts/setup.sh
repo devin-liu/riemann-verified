@@ -46,6 +46,8 @@ fi
 if [ $update = 1 ]; then
   [ -z "$(git status --porcelain --untracked-files=no)" ] || { echo "worktree has edits; not updating" >&2; exit 1; }
   git fetch --quiet origin "$branch" </dev/null
+  # After a pull request the checkout sits on its branch; every new cycle starts from main.
+  [ "$(git branch --show-current)" = "$branch" ] || git switch --quiet "$branch"
   git merge --ff-only "origin/$branch"
 fi
 

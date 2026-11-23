@@ -1,12 +1,109 @@
 {
+ "existsUnique_sLocalNormOneQuotientTransition": {
+  "decl": "existsUnique_sLocalNormOneQuotientTransition",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4289,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs the T-to-S norm-one quotient map with kernel = relative integral units, an open-mapping/Picard argument (6.2.1.1)",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "exists_infiniteStandardThetaAverage": {
+  "decl": "exists_infiniteStandardThetaAverage",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4308,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; norm-one archimedean ideles are non-compact when the unit rank is positive, so integrability needs Schwartz decay along the unit directions (finite analogue is proved via local constancy, which does not transfer)",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:47-05:00"
+ },
+ "globalPrincipalValueConverse_nontrivial": {
+  "decl": "globalPrincipalValueConverse_nontrivial",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 4457,
+  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
+  "state": "open",
+  "updated": "2026-11-23T01:32:10-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist": {
+  "decl": "globalPrincipalValueConverse_normTwist",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 4458,
+  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
+  "state": "open",
+  "updated": "2026-11-23T01:32:10-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist_divided_exact": {
+  "decl": "globalPrincipalValueConverse_normTwist_divided_exact",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 4462,
+  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
+  "state": "open",
+  "updated": "2026-11-23T01:32:31-05:00"
+ },
+ "globalThetaIsotypeSum_inherited_properties": {
+  "decl": "globalThetaIsotypeSum_inherited_properties",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4300,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs general permanence of LF, nuclear, barrelled, Montel and strong-dual properties under countable locally convex direct sums, not in Mathlib or the repo",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "globalThetaToHomogeneousProduct_not_isClosed_range": {
+  "decl": "globalThetaToHomogeneousProduct_not_isClosed_range",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4301,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; nonclosed range needs an explicit sequence whose product image converges outside the range; file TODO(paper-gap) above it says the remark conflates two products",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "infiniteStandardThetaAverage_forwardDecay": {
+  "decl": "infiniteStandardThetaAverage_forwardDecay",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4318,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; analytic estimates (6.2.2.12) on the archimedean average, depend on the unproved existence of the average",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:47-05:00"
+ },
+ "infiniteStandardThetaAverage_integrable": {
+  "decl": "infiniteStandardThetaAverage_integrable",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4306,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; norm-one archimedean ideles are non-compact when the unit rank is positive, so integrability needs Schwartz decay along the unit directions (finite analogue is proved via local constancy, which does not transfer)",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:47-05:00"
+ },
+ "infiniteStandardThetaAverage_logBound": {
+  "decl": "infiniteStandardThetaAverage_logBound",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4319,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; analytic estimates (6.2.2.12) on the archimedean average, depend on the unproved existence of the average",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:47-05:00"
+ },
+ "memLp_sLocalCarvingGenerator": {
+  "decl": "memLp_sLocalCarvingGenerator",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
+  "issue": 5193,
+  "note": "claimed by ADB991 upstream, PR #6127 open (rv preflight 2026-11-23); not attempted",
+  "state": "taken",
+  "updated": "2026-11-23T01:09:22-05:00"
+ },
  "sLocalAbsolutePW_globalSupport": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 117.3,
   "decl": "sLocalAbsolutePW_globalSupport",
   "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
   "group": "support",
+  "inherited_sorry": true,
   "issue": 4741,
-  "note": "Lean-only miss; Paley-Wiener support statement (Poisson summation plus lattice count in the Fourier box, under PicTrivial and saturation); no upstream lemma gives theta support from Fourier support; out of reach for one pass, no candidate written",
-  "state": "stuck",
-  "updated": "2026-11-22T23:51:32-05:00"
+  "note": "proved-local here 2026-11-23 02:08 from a private candidate, but lobster2k25 claimed both (06:51Z) and upstream PR #6227 merged proofs; issues closed; nothing sent",
+  "route": "private",
+  "state": "taken",
+  "updated": "2026-11-23T07:27:54-05:00"
  },
  "sLocalAbsolutePW_translate": {
   "axioms": [
@@ -21,20 +118,37 @@
   "group": "translate",
   "inherited_sorry": true,
   "issue": 4743,
-  "note": "Lean-only miss; model pass found the proof plan but it needs a missing S-local Fourier-dilation support lemma (shared by both) plus a norm-N unit representative integral outside S; plan and exact lemma statement in outbox/lemma-sLocalPW_translate.md; candidate for a lemma pass",
+  "note": "PR #6098 seen MERGED upstream 2026-11-23T05:36:12Z (gh pr view)",
   "pr": 6098,
   "route": "private",
-  "state": "pr-open",
-  "updated": "2026-11-23T00:13:41-05:00"
+  "state": "merged",
+  "updated": "2026-11-23T01:07:10-05:00"
+ },
+ "sLocalCarvingLimit_eq_closedSpan": {
+  "decl": "sLocalCarvingLimit_eq_closedSpan",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
+  "issue": 5194,
+  "note": "Lean-only miss (run 20261123-010740-Sec1b). Model pass (mid) wrote no candidate: this is all of Theorem 11.1.2.1(3) (pp. 480-482), both inclusions between the iInf of cutoff stages and the closed span of S-local generators (11.1.2.7); no lemma above it in the file relates sLocalCutoffCarving to sLocalCarvingGenerator (sLocalCutoffCarving_eq_closure_map is below, at 1625), and the statement uses memLp_sLocalCarvingGenerator (#5193, sorry, claimed by another contributor with PR #6127). Revisit after #6127 lands, via a lemma pass on the generator/stage correspondence.",
+  "state": "stuck",
+  "updated": "2026-11-23T01:09:18-05:00"
  },
  "sLocalInvariantPW_globalSupport": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 132.3,
   "decl": "sLocalInvariantPW_globalSupport",
   "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
   "group": "support",
+  "inherited_sorry": true,
   "issue": 4748,
-  "note": "Lean-only miss; Paley-Wiener support statement (Poisson summation plus lattice count in the Fourier box, under PicTrivial and saturation); no upstream lemma gives theta support from Fourier support; out of reach for one pass, no candidate written",
-  "state": "stuck",
-  "updated": "2026-11-22T23:51:32-05:00"
+  "note": "proved-local here 2026-11-23 02:08 from a private candidate, but lobster2k25 claimed both (06:51Z) and upstream PR #6227 merged proofs; issues closed; nothing sent",
+  "route": "private",
+  "state": "taken",
+  "updated": "2026-11-23T07:27:54-05:00"
  },
  "sLocalInvariantPW_translate": {
   "axioms": [
@@ -49,10 +163,76 @@
   "group": "translate",
   "inherited_sorry": true,
   "issue": 4749,
-  "note": "Lean-only miss; model pass found the proof plan but it needs a missing S-local Fourier-dilation support lemma (shared by both) plus a norm-N unit representative integral outside S; plan and exact lemma statement in outbox/lemma-sLocalPW_translate.md; candidate for a lemma pass",
+  "note": "PR #6098 seen MERGED upstream 2026-11-23T05:36:12Z (gh pr view)",
   "pr": 6098,
   "route": "private",
-  "state": "pr-open",
-  "updated": "2026-11-23T00:13:41-05:00"
+  "state": "merged",
+  "updated": "2026-11-23T01:07:10-05:00"
+ },
+ "sLocalPolarPrincipalValue_tfae": {
+  "decl": "sLocalPolarPrincipalValue_tfae",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec2.lean",
+  "issue": 4558,
+  "note": "Cor 7.2.2.2; polar-subspace variant of Prop 7.2.2.1 and needs the same missing image characterization (Ch07/Sec3a sLocalThetaPoleBound_le_orbitalPrincipalValue, sorry), plus the polar-subspace facts sAdelePolarValues_isLinear / sAdeleSchwartzToGlobal_mem_polarSubspace (claimed by another contributor, PR #5974). Lean-only pass 0/5; mid pass wrote no candidate.",
+  "state": "stuck",
+  "updated": "2026-11-23T01:31:12-05:00"
+ },
+ "sLocalPrincipalValue_tfae": {
+  "decl": "sLocalPrincipalValue_tfae",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec2.lean",
+  "issue": 4554,
+  "note": "Prop 7.2.2.1. (1)=>(3) is the reverse inclusion of Thm 7.3.1.2(1), still sorry downstream (Ch07/Sec3a sLocalThetaPoleBound_le_orbitalPrincipalValue); the easy inclusion sLocalOrbitalPrincipalValue_eq_poleBound_le lives in Sec3a, which imports Sec2. (4) needs the global principal-value image (Ch05/Sec3a). Lean-only pass 0/5 tactics; mid pass wrote no candidate.",
+  "state": "stuck",
+  "updated": "2026-11-23T01:31:12-05:00"
+ },
+ "sLocalStandardThetaTensor_quotient_equiv": {
+  "decl": "sLocalStandardThetaTensor_quotient_equiv",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4317,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; core of Thm 6.2.2.1: open quotient / iso onto homogeneous quotient through the standard finite tensor factor",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "sLocalStandardThetaTensor_toGlobal_openQuotient": {
+  "decl": "sLocalStandardThetaTensor_toGlobal_openQuotient",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4305,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; core of Thm 6.2.2.1: open quotient / iso onto homogeneous quotient through the standard finite tensor factor",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "sLocalThetaIsotypeSum_complete": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 16.8,
+  "decl": "sLocalThetaIsotypeSum_complete",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "inherited_sorry": true,
+  "issue": 4297,
+  "model": "claude-opus-5-5",
+  "note": "proved-local here 2026-11-23 01:35 (gate accepted), but upstream PR #6248 by marozols merged the same theorem at 2026-11-23T09:03Z and closed #4297 before our PR went out; nothing sent",
+  "route": "model",
+  "state": "taken",
+  "updated": "2026-11-23T07:27:34-05:00"
+ },
+ "sLocalThetaIsotypeSum_inherited_properties": {
+  "decl": "sLocalThetaIsotypeSum_inherited_properties",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
+  "issue": 4299,
+  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs general permanence of LF, nuclear, barrelled, Montel and strong-dual properties under countable locally convex direct sums, not in Mathlib or the repo",
+  "state": "stuck",
+  "updated": "2026-11-23T01:35:46-05:00"
+ },
+ "sLocalUncutCarving_lt": {
+  "decl": "sLocalUncutCarving_lt",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
+  "issue": 5186,
+  "note": "Lean-only miss (run 20261123-010740-Sec1b; exact? hit heartbeat timeout). Model pass (mid) wrote no candidate: le would follow like sLocalCutoffCarving_antitone (uncut analogue of _antitone_range), but strictness needs an explicit polar-free test in the i-stage outside the closed i'-stage (Mellin evaluation at a new Euler factor zero at p); nothing in the file supplies it, and upstream's TODO(paper-gap) above the statement says the p.482 basis argument needs s >= 2*card(i'), not the degree bound. Needs a lemma pass or the paper gap resolved.",
+  "state": "stuck",
+  "updated": "2026-11-23T01:09:18-05:00"
  }
 }

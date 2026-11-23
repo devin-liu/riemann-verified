@@ -45,7 +45,7 @@ The guide that project ended with had a few more rules worth keeping:
 
 | Rule there | Here |
 |---|---|
-| Reading is the default; changing live state needs an approval for the exact operation, and an old approval is history, not permission. | Local Lean work is free. Each outward action is drafted to `outbox/` and needs a go-ahead in the current session. |
+| Reading is the default; changing live state needs an approval for the exact operation, and an old approval is history, not permission. | Local Lean work is free. Each outward action is drafted to `outbox/` and needs a go-ahead in the current session, except one standing go-ahead (2026-11-23) for claim, branch and PR on targets the gate accepted that turn, with fixed stop conditions: waiting for an answer cost three proofs to faster contributors. A second standing go-ahead (same day) claims up to four stuck targets right before a private attempt, since hours-long rounds lost most of each stuck list. |
 | "Confirmed" needs positive evidence; "unknown", "partial" and "not collected" are legitimate results; a failed collector is never a clearance. | "Proved" needs an accepted `gate.py apply`. `timeout`, `invalid` and `stuck` are results. A setup failure logs nothing against a target. |
 | Find the owner before proposing a change. | Find which declaration or missing lemma owns the difficulty, and who upstream holds the claim. |
 | What the editor shows is not proof of a save; each surface has its own way to verify. | A scratch `example` is not the theorem; the module build is. A local build is not the upstream check. |

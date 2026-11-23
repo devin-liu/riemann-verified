@@ -141,6 +141,9 @@ def cmd_apply(a) -> None:
           + ("\n  sorryAx is inherited from other unproved declarations: disclose it in the pull request" if inherited else ""))
     if times and secs > times[0] + 60:
         print("  WARNING: this proof adds more than a minute to the file. Find the slow step before handing in.")
+    if known.get("issue"):
+        print(f"next: claim #{known['issue']} now: scripts/rv preflight {a.file}, then scripts/rv draft claim {a.decl}"
+              " (AGENTS.md, \"Outward actions\")")
 
 
 def cmd_axioms(a) -> None:
@@ -201,7 +204,7 @@ def cmd_handin(a) -> None:
     rc = subprocess.run(["bash", str(rv.ROOT / "scripts" / "leakcheck.sh"), "--outgoing"], cwd=rv.ROOT).returncode
     step("privacy check on outgoing text", rc == 0)
     rv.append("attempts.jsonl", {"ts": rv.now(), "type": "handin-check", "sha": rv.git_sha(wt), "ok": ok, "steps": steps})
-    print("\nhand-in checks " + ("PASSED. Next: scripts/rv draft pr, read the diff, then ask the operator to open the PR."
+    print("\nhand-in checks " + ("PASSED. Next: scripts/rv draft pr, read the diff, then open the PR in this turn (AGENTS.md, \"Outward actions\")."
                                  if ok else "FAILED. Fix and rerun; nothing is submitted."))
     sys.exit(0 if ok else 1)
 

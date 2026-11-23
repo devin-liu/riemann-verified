@@ -122,7 +122,7 @@ def cmd_status(a) -> None:
     for d, r in sorted(t.items(), key=lambda kv: (kv[1].get("file", ""), kv[1].get("issue") or 0)):
         tries = [x for x in att if x.get("decl") == d and x.get("type") == "try"]
         warn = ""
-        if r["state"] == "claimed" and r.get("claimed_at"):
+        if r["state"] in ("claimed", "proved-local", "stuck") and r.get("claimed_at"):
             h = hours_since(r["claimed_at"])
             if h > c.get("claim_expires_hours", 8) - 2:
                 warn = f"  !! claim is {h:.1f}h old; upstream releases it at {c.get('claim_expires_hours', 8)}h"
@@ -159,9 +159,12 @@ def cmd_set(a) -> None:
     for d in a.decl:
         if d not in rv.load_targets():
             rv.die(f"{d} is not a target; `scripts/rv add` it first")
-        extra = {"claimed_at": rv.now()} if a.state == "claimed" else {}
+        if not a.state and not a.claimed:
+            rv.die("give --state, or --claimed to record a `Claiming` comment seen upstream")
+        extra = {"claimed_at": rv.now()} if a.state == "claimed" or a.claimed else {}
         row = rv.set_target(d, state=a.state, pr=a.pr, note=a.note, **extra)
-        print(f"{d}: {row['state']}" + (f" (PR #{row['pr']})" if row.get("pr") else ""))
+        print(f"{d}: {row['state']}" + (f" (PR #{row['pr']})" if row.get("pr") else "")
+              + (f", claimed {row['claimed_at']}" if a.claimed else ""))
 
 
 def cmd_model_pass(a) -> None:
@@ -311,12 +314,21 @@ def cmd_draft(a) -> None:
     out.mkdir(exist_ok=True)
     t = rv.load_targets()
     if a.kind == "claim":
-        rows = [r for r in t.values() if r["state"] == "open" and r.get("issue") and (not a.decl or r["decl"] in a.decl)]
+        # Claims are made when `gate.py apply` accepts a target (AGENTS.md, "Outward actions"):
+        # the row stays `proved-local` and gets a `claimed_at`. `open` rows can still be claimed by hand.
+        # `stuck` rows are claimed only when named, right before they go to a private attempt
+        # (AGENTS.md, "Standing: claim before a private attempt"); they stay `stuck` with a `claimed_at`.
+        rows = [r for r in t.values() if r.get("issue") and (not a.decl or r["decl"] in a.decl)
+                and not r.get("claimed_at")
+                and (r["state"] in ("open", "proved-local") or (r["state"] == "stuck" and a.decl))]
         if not rows:
-            rv.die("no target in state `open` with an issue number")
+            rv.die("no unclaimed target in state `proved-local` or `open` (or a named `stuck` one) with an issue number")
         lines = [f'gh issue comment {r["issue"]} -R {up} --body "Claiming"   # {r["decl"]}' for r in rows]
         (out / "claim.sh").write_text("\n".join(lines) + "\n")
-        after = f"scripts/rv set {' '.join(r['decl'] for r in rows)} --state claimed"
+        won = [r["decl"] for r in rows if r["state"] in ("proved-local", "stuck")]
+        rest = [r["decl"] for r in rows if r["state"] == "open"]
+        after = " ; ".join(([f"scripts/rv set {' '.join(won)} --claimed"] if won else [])
+                           + ([f"scripts/rv set {' '.join(rest)} --state claimed"] if rest else []))
     elif a.kind == "release":
         rows = [r for r in t.values() if r["state"] in ("claimed", "stuck") and r.get("issue")]
         if not rows:
@@ -347,13 +359,22 @@ def cmd_draft(a) -> None:
             body.append(f"- `{r['decl']}`: {', '.join(r.get('axioms') or []) or 'none'}"
                         + (" (`sorryAx` is inherited from declarations that are still unproved)" if r.get("inherited_sorry") else ""))
         (out / "PR.md").write_text("\n".join(body) + "\n", encoding="utf-8")
-        lines = [f"# in {wt}: review `git diff` first", f'gh pr create -R {up} --base main --title "{body[0]}" --body-file <(tail -n +3 {out / "PR.md"})']
+        # Relative paths only: outbox/ is scanned by `leakcheck.sh --outgoing`, which rejects home paths.
+        lines = [f"# in {os.path.relpath(wt, out.parent)}: review `git diff` first",
+                 f'gh pr create -R {up} --base main --title "{body[0]}" --body-file <(tail -n +3 {os.path.relpath(out / "PR.md", wt)})']
         (out / "pr.sh").write_text("\n".join(lines) + "\n")
         after = f"scripts/rv set {' '.join(r['decl'] for r in rows)} --state pr-open --pr <number>"
         if not checked:
             print("WARNING: no passing `scripts/gate.py handin` for this commit; the PR text makes no claim about checks. Run it first.")
+        unclaimed = [r["decl"] for r in rows if not r.get("claimed_at")]
+        if unclaimed:
+            print(f"WARNING: not claimed upstream yet: {', '.join(unclaimed)}. Claim at gate accept (AGENTS.md, \"Outward actions\").")
     print(f"drafted in outbox/ ({a.kind}): {len(rows)} item(s). Nothing was sent.")
-    print("Outgoing actions need the operator's go-ahead in this session (AGENTS.md, \"Outward actions\").")
+    if a.kind in ("claim", "pr"):
+        print("For targets `gate.py apply` accepted this turn, this is covered by the standing go-ahead;"
+              " anything else needs the operator's go-ahead (AGENTS.md, \"Outward actions\").")
+    else:
+        print("Outgoing actions need the operator's go-ahead in this session (AGENTS.md, \"Outward actions\").")
     print(f"After it is sent: {after}")
 
 
@@ -437,7 +458,8 @@ def main() -> None:
     p.set_defaults(fn=cmd_scout)
     p = sub.add_parser("add"); p.add_argument("--issue", type=int); p.add_argument("--decl", required=True)
     p.add_argument("--file", required=True); p.add_argument("--group"); p.set_defaults(fn=cmd_add)
-    p = sub.add_parser("set"); p.add_argument("decl", nargs="+"); p.add_argument("--state", required=True, choices=rv.STATES)
+    p = sub.add_parser("set"); p.add_argument("decl", nargs="+"); p.add_argument("--state", choices=rv.STATES)
+    p.add_argument("--claimed", action="store_true", help="record a `Claiming` comment seen upstream; keeps the state")
     p.add_argument("--pr", type=int); p.add_argument("--note"); p.set_defaults(fn=cmd_set)
     p = sub.add_parser("show"); p.add_argument("decl"); p.add_argument("-n", type=int, default=12); p.set_defaults(fn=cmd_show)
     p = sub.add_parser("model-pass"); p.add_argument("--model", required=True); p.add_argument("--tier", required=True, choices=["mid", "strong"])
