@@ -1,0 +1,16 @@
+{
+ "upstream": "mccorvie/riemann-masullo",
+ "upstream_branch": "main",
+ "worktree": "work/riemann-masullo",
+ "lean_timeout_sec": 600,
+ "build_timeout_sec": 3600,
+ "failure_bundle_chars": 14000,
+ "turn_stale_hours": 4,
+ "claim_expires_hours": 8,
+ "budget": {
+  "model_passes_per_batch": 1,
+  "mid_model": "a current mid-tier model; the exact model id is recorded with each pass (scripts/rv model-pass --model)",
+  "strong_model": "the strongest available model; the exact model id is recorded with each pass",
+  "strong_model_requires": "a named intermediate lemma that serves two or more targets"
+ }
+}

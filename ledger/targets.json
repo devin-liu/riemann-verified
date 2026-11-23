@@ -1,0 +1,58 @@
+{
+ "sLocalAbsolutePW_globalSupport": {
+  "decl": "sLocalAbsolutePW_globalSupport",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
+  "group": "support",
+  "issue": 4741,
+  "note": "Lean-only miss; Paley-Wiener support statement (Poisson summation plus lattice count in the Fourier box, under PicTrivial and saturation); no upstream lemma gives theta support from Fourier support; out of reach for one pass, no candidate written",
+  "state": "stuck",
+  "updated": "2026-11-22T23:51:32-05:00"
+ },
+ "sLocalAbsolutePW_translate": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 57.0,
+  "decl": "sLocalAbsolutePW_translate",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
+  "group": "translate",
+  "inherited_sorry": true,
+  "issue": 4743,
+  "note": "Lean-only miss; model pass found the proof plan but it needs a missing S-local Fourier-dilation support lemma (shared by both) plus a norm-N unit representative integral outside S; plan and exact lemma statement in outbox/lemma-sLocalPW_translate.md; candidate for a lemma pass",
+  "pr": 6098,
+  "route": "private",
+  "state": "pr-open",
+  "updated": "2026-11-23T00:13:41-05:00"
+ },
+ "sLocalInvariantPW_globalSupport": {
+  "decl": "sLocalInvariantPW_globalSupport",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
+  "group": "support",
+  "issue": 4748,
+  "note": "Lean-only miss; Paley-Wiener support statement (Poisson summation plus lattice count in the Fourier box, under PicTrivial and saturation); no upstream lemma gives theta support from Fourier support; out of reach for one pass, no candidate written",
+  "state": "stuck",
+  "updated": "2026-11-22T23:51:32-05:00"
+ },
+ "sLocalInvariantPW_translate": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 67.6,
+  "decl": "sLocalInvariantPW_translate",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
+  "group": "translate",
+  "inherited_sorry": true,
+  "issue": 4749,
+  "note": "Lean-only miss; model pass found the proof plan but it needs a missing S-local Fourier-dilation support lemma (shared by both) plus a norm-N unit representative integral outside S; plan and exact lemma statement in outbox/lemma-sLocalPW_translate.md; candidate for a lemma pass",
+  "pr": 6098,
+  "route": "private",
+  "state": "pr-open",
+  "updated": "2026-11-23T00:13:41-05:00"
+ }
+}

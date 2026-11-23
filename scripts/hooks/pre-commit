@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Blocks a commit that contains private or secret text, or that would publish a personal email
+# address as author or committer. Enabled by: git config core.hooksPath scripts/hooks
+set -uo pipefail
+for who in GIT_AUTHOR_IDENT GIT_COMMITTER_IDENT; do
+  email=$(git var "$who" | sed -E 's/.*<([^>]*)>.*/\1/')
+  case $email in
+    *@users.noreply.github.com) ;;
+    *)
+      echo "pre-commit: $who uses '$email'. Commits here are public." >&2
+      echo "            Use your GitHub noreply address: git config user.email <id>+<login>@users.noreply.github.com" >&2
+      exit 1 ;;
+  esac
+done
+exec "$(git rev-parse --show-toplevel)/scripts/leakcheck.sh" --staged

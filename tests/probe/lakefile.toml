@@ -1,0 +1,9 @@
+name = "Probe"
+defaultTargets = ["Probe"]
+
+[leanOptions]
+autoImplicit = false
+
+[[lean_lib]]
+name = "Probe"
+globs = ["Probe.+"]
