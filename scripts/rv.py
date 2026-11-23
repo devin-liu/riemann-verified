@@ -120,7 +120,7 @@ def cmd_status(a) -> None:
     print(f"TARGETS   {len(t)}: " + (", ".join(f"{k} {v}" for k, v in sorted(by.items())) or "none yet"))
     att = rv.read_jsonl("attempts.jsonl")
     for d, r in sorted(t.items(), key=lambda kv: (kv[1].get("file", ""), kv[1].get("issue") or 0)):
-        tries = [x for x in att if x.get("decl") == d and x.get("type") == "try"]
+        tries = [x for x in att if rv.same_decl(x.get("decl"), d) and x.get("type") == "try"]
         warn = ""
         if r["state"] in ("claimed", "proved-local", "stuck") and r.get("claimed_at"):
             h = hours_since(r["claimed_at"])
@@ -194,11 +194,73 @@ def cmd_usage(a) -> None:
 
 # ---------------------------------------------------------------- upstream, read-only
 
+# Upstream's own rule (scripts/ci/stale_claims.py, .github/workflows/claims.yml): a comment whose
+# first line starts with "Claiming"/"Claimed" claims the issue; "Releasing"/"Released" undoes it.
+# The `claimed` label is set by a workflow that can sit in a queue for a long time, so the
+# comments, not the label, decide.
+CLAIM_RE = re.compile(r"\s*claim(ing|ed)?([^a-z]|$)", re.I)
+RELEASE_RE = re.compile(r"\s*releas(ing|ed?)?([^a-z]|$)", re.I)
+
+
+# The pool is upstream's own "unclaimed" query (CONTRIBUTING.md, step 1): open, `proof`, and none
+# of these labels. `refutation` issues (prove that a printed statement is false) are in the pool.
+BLOCKING_LABELS = {"claimed", "stuck", "gap"}
+
+
+def issue_holder(up: str, number: int, comments: list[dict]) -> tuple[str, str] | None:
+    """Who holds an issue right now, for one whose `claimed` label is absent.
+
+    The label lags (its workflow can sit in a queue), so a recent `Claiming` comment still
+    counts. But the owner or the bot also releases a claim by removing the label without a
+    comment, and upstream lets a claim lapse after eight hours, so the timeline decides:
+    the first claim not undone by a release comment, an `unlabeled claimed` event or age."""
+    if not any(CLAIM_RE.match((c.get("body") or "").split("\n", 1)[0]) for c in comments or []):
+        return None
+    jq = ('.[] | {event, t: .created_at, label: (.label.name // ""), body: (.body // ""), '
+          'who: (.user.login // .actor.login // "?"), assoc: (.author_association // "")}')
+    lines = gh(["api", f"repos/{up}/issues/{number}/timeline", "--paginate", "--jq", jq]).splitlines()
+    holder = None
+    for e in sorted((json.loads(x) for x in lines if x.strip()), key=lambda e: e["t"] or ""):
+        if e["event"] == "unlabeled" and e["label"] == "claimed":
+            holder = None
+        elif e["event"] == "commented":
+            first = e["body"].split("\n", 1)[0]
+            if CLAIM_RE.match(first):
+                holder = holder or (e["who"], e["t"])
+            elif holder and e["who"].startswith("github-actions") and "released automatically" in first:
+                holder = None
+            elif RELEASE_RE.match(first) and holder and (
+                    e["who"] == holder[0] or e["who"].startswith("github-actions")
+                    or e["assoc"] in ("OWNER", "MEMBER", "COLLABORATOR")):
+                holder = None
+    if holder and hours_since(holder[1]) > rv.cfg().get("claim_expires_hours", 8):
+        return None  # lapsed; upstream's hourly job will release it
+    return holder
+
+
+def comment_claim(comments: list[dict]) -> tuple[str, str] | None:
+    """(login, time) of whoever holds the issue by its comments: the first claim not released
+    since by its author, by a bot or by a later release comment from a member; None if free."""
+    holder = None
+    for c in sorted(comments or [], key=lambda c: c.get("createdAt", "")):
+        first = (c.get("body") or "").split("\n", 1)[0]
+        who = (c.get("author") or {}).get("login", "?")
+        if CLAIM_RE.match(first):
+            holder = holder or (who, c.get("createdAt", ""))
+        elif holder and who in ("github-actions", "github-actions[bot]") and "released automatically" in first:
+            holder = None  # upstream's hourly stale-claim release (scripts/ci/stale_claims.py)
+        elif RELEASE_RE.match(first) and holder and (
+                who == holder[0] or who.endswith("[bot]") or who == "github-actions"
+                or c.get("authorAssociation") in ("OWNER", "MEMBER", "COLLABORATOR")):
+            holder = None
+    return holder
+
 def open_prs(owner: str, name: str) -> list[dict]:
     prs, cursor = [], None
     while True:
         q = ('query($o:String!,$n:String!,$c:String){repository(owner:$o,name:$n){pullRequests(states:OPEN,first:50,after:$c)'
-             '{pageInfo{hasNextPage endCursor} nodes{number title isDraft author{login} files(first:100){nodes{path}}}}}}')
+             '{pageInfo{hasNextPage endCursor} nodes{number title isDraft author{login} files(first:100){nodes{path}}'
+             ' closingIssuesReferences(first:50){nodes{number}}}}}}')
         args = ["api", "graphql", "-f", f"query={q}", "-f", f"o={owner}", "-f", f"n={name}"]
         page = json.loads(gh(args + (["-f", f"c={cursor}"] if cursor else [])))["data"]["repository"]["pullRequests"]
         prs += page["nodes"]
@@ -213,21 +275,33 @@ def cmd_scout(a) -> None:
     owner, name = up.split("/")
     me = gh(["api", "user", "--jq", ".login"]).strip()
     issues = json.loads(gh(["issue", "list", "-R", up, "--state", "open", "--label", "proof", "--limit", "2000",
-                            "--json", "number,labels,assignees,body"]))
+                            "--json", "number,labels,assignees,body,comments"]))
+    prs = open_prs(owner, name)
+    in_pr = {n["number"]: (p["author"] or {}).get("login", "?") for p in prs
+             for n in p["closingIssuesReferences"]["nodes"]}
     files: dict[str, dict] = {}
     for i in issues:
         m = re.search(r"<!-- sorry: (.+?)::(.+?) -->", i["body"])
         if not m:
             continue
-        f = files.setdefault(m.group(1), {"free": 0, "held": 0, "people": set(), "prs": 0})
+        f = files.setdefault(m.group(1), {"free": 0, "held": 0, "people": set(), "prs": 0, "ids": []})
         labels = {l["name"] for l in i["labels"]}
         who = {x["login"] for x in i["assignees"]} - {me}
-        if labels & {"claimed", "stuck", "gap", "refutation"}:
+        if not labels & BLOCKING_LABELS:
+            held = issue_holder(up, i["number"], i.get("comments"))
+            if held and held[0] != me:
+                labels.add("claimed")
+                who = {held[0]}
+            elif i["number"] in in_pr and in_pr[i["number"]] != me:
+                labels.add("claimed")
+                who = {in_pr[i["number"]]}
+        if labels & BLOCKING_LABELS:
             f["held"] += 1
             f["people"] |= who if "claimed" in labels else set()
         else:
             f["free"] += 1
-    for p in open_prs(owner, name):
+            f["ids"].append(f"#{i['number']}" + (" (refutation)" if "refutation" in labels else ""))
+    for p in prs:
         for path in {x["path"] for x in p["files"]["nodes"]}:
             if path in files and (p["author"] or {}).get("login") != me:
                 files[path]["prs"] += 1
@@ -238,7 +312,8 @@ def cmd_scout(a) -> None:
     print("Fewest other people first, then fewest statements left (a nearly finished file stops being rebuilt).")
     print(f"{'others':>6} {'left':>4} {'free':>4} {'PRs':>3}  file")
     for f, d in rows[:a.n]:
-        print(f"{len(d['people']):>6} {d['free'] + d['held']:>4} {d['free']:>4} {d['prs']:>3}  {f}")
+        print(f"{len(d['people']):>6} {d['free'] + d['held']:>4} {d['free']:>4} {d['prs']:>3}  {f}  "
+              + " ".join(sorted(d["ids"])))
     rv.append("attempts.jsonl", {"ts": rv.now(), "type": "scout", "open_proof_issues": len(issues), "files": len(files),
                                  "top": [f for f, _ in rows[:5]]})
 
@@ -250,9 +325,12 @@ def cmd_preflight(a) -> None:
     me = gh(["api", "user", "--jq", ".login"]).strip()
     base = pathlib.Path(a.file).name
     issues = json.loads(gh(["issue", "list", "-R", up, "--state", "open", "--label", "proof", "--limit", "300",
-                            "--search", f"{base} in:body", "--json", "number,title,labels,assignees,body"]))
+                            "--search", f"{base} in:body", "--json", "number,title,labels,assignees,body,comments"]))
     issues = [i for i in issues if f"<!-- sorry: {a.file}::" in i["body"]]
-    prs = [p for p in open_prs(owner, name) if any(f["path"] == a.file for f in p["files"]["nodes"])]
+    all_prs = open_prs(owner, name)
+    in_pr = {n["number"]: (p["author"] or {}).get("login", "?") for p in all_prs
+             for n in p["closingIssuesReferences"]["nodes"]}
+    prs = [p for p in all_prs if any(f["path"] == a.file for f in p["files"]["nodes"])]
 
     known = rv.load_targets()
     print(f"UPSTREAM  {up}: {len(issues)} open proof issues for {a.file}, {len(prs)} open PRs touching it")
@@ -262,14 +340,21 @@ def cmd_preflight(a) -> None:
         decl = re.search(r"<!-- sorry: .*?::(.+?) -->", i["body"]).group(1)
         labels = {l["name"] for l in i["labels"]}
         who = ",".join(x["login"] for x in i["assignees"])
-        flags = sorted(labels & {"claimed", "stuck", "gap", "refutation"})
-        mine = me in who.split(",")
+        held = None if labels & BLOCKING_LABELS else issue_holder(up, i["number"], i.get("comments"))
+        if held:
+            labels.add("claimed")
+            who = held[0]
+        elif not labels & BLOCKING_LABELS and i["number"] in in_pr:
+            labels.add("claimed")
+            who = f"{in_pr[i['number']]} (PR)"
+        flags = sorted(labels & BLOCKING_LABELS)
+        mine = held[0] == me if held else me in who.split(",")
         if flags and not mine:
             others += "claimed" in flags
             people |= {x for x in who.split(",") if x and "claimed" in flags}
         elif not flags:
             free += 1
-        tag = "ours" if decl in known else ""
+        tag = ("ours" if decl in known else "") + (f" since {held[1]}" if held else "")
         print(f"  #{i['number']:<5} {decl:<44.44} {','.join(flags) or 'free':<14} {who:<16} {tag}")
         if decl in known:
             row = known[decl]
@@ -433,7 +518,7 @@ def cmd_check(a) -> None:
         if r["state"] in ("proved-local", "pr-open", "merged"):
             if r.get("route") not in rv.ROUTES:
                 problems.append(f"{d}: proved without a route")
-            if not any(x.get("type") == "apply" and x.get("decl") == d and x.get("result") == "win" for x in att):
+            if not any(x.get("type") == "apply" and rv.same_decl(x.get("decl"), d) and x.get("result") == "win" for x in att):
                 problems.append(f"{d}: marked proved, but the ledger has no accepted `gate.py apply` for it")
         if r["state"] in ("stuck", "finding") and not r.get("note"):
             problems.append(f"{d}: {r['state']} without a note for the next person")

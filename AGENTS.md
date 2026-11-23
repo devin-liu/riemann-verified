@@ -135,7 +135,9 @@ go-ahead in the current session.
 ### Standing: from gate win to pull request
 
 Set by the operator on 2026-11-23, in their words: "update AGENTS.md and cycle.md to claim at
-gate accept" and "We should have not waited for human approval on #4297 if it was good to go".
+gate accept", "We should have not waited for human approval on #4297 if it was good to go", and
+"go through and do not wait on my approval - if we have valid claims then take claims, and make
+PRs as soon as we have valid results".
 Why: the first cycles proved targets and then waited for hand-in or for an answer, and other
 contributors merged the same theorems in between (#4297, #4741, #4748 on 2026-11-23).
 
@@ -153,7 +155,8 @@ It covers, for targets that `gate.py apply` accepted in this turn, without askin
 3. **Keep our own PR green.** If upstream's check fails on a PR we opened, fix it, rerun
    `gate.py handin`, and push to the same branch.
 
-Stop, send nothing more, and ask the operator when any of these holds:
+Send nothing more for a target when any of these holds. Skip that target, record why
+(`--did`, and a note on the target), and carry on with the others; do not stop the cycle to ask:
 
 - the issue is claimed by someone else or closed: set `taken` instead;
 - another open PR changes the same declaration or overlapping lines (`gh pr diff <n>`). An

@@ -24,7 +24,10 @@ cycle is one file taken from scout to pull request; it may span several turns.
 > 2. **Open pull requests.** For each target in `pr-open`, read `gh pr view <n>`; set `merged`
 >    only if it merged, and fix and push if the check says fail.
 > 3. **New file.** If nothing is waiting, follow "Next action" in `NEXT.md`, or
->    `scripts/rv scout` and `scripts/rv preflight <file> --add`. Run `firstpass.py` over its free
+>    `scripts/rv scout --min-free 1` and `scripts/rv preflight <file> --add`. Scout picks from
+>    upstream's own unclaimed query (open `proof` issues without `claimed`, `stuck` or `gap`;
+>    `refutation` issues count), minus fresh `Claiming` comments the label has not caught up
+>    with and issues an open PR already closes. Run `firstpass.py` over its free
 >    targets and apply the wins. Make one mid-tier model pass over the misses, as `AGENTS.md`
 >    says; mark what is still unproved `stuck` with a note.
 > 4. **Hand-in and pull request, in the same turn.** If anything is `proved-local`, run

@@ -91,6 +91,21 @@ def load_targets() -> dict:
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
+def ledger_key(name: str, file: str | None = None) -> str:
+    """The ledger key for a declaration found under its short name (e.g. `foo_false` for
+    `Printed.foo_false`), so attempts and the target row use the same name."""
+    ts = load_targets()
+    if name in ts:
+        return name
+    hits = [k for k, v in ts.items() if k.split(".")[-1] == name and (file is None or v.get("file") == file)]
+    return hits[0] if len(hits) == 1 else name
+
+
+def same_decl(logged: str | None, key: str) -> bool:
+    """An attempt row logged as `logged` belongs to ledger target `key` (short or full name)."""
+    return logged == key or (logged is not None and "." not in logged and logged == key.split(".")[-1])
+
+
 def save_targets(t: dict) -> None:
     LEDGER.mkdir(exist_ok=True)
     tmp = LEDGER / "targets.json.tmp"

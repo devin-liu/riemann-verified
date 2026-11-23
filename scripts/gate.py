@@ -40,12 +40,14 @@ def first_error(out: str) -> str:
 def read_axioms(wt: pathlib.Path, rel: str, text: str, decls: list[str], timeout: int) -> dict[str, list[str] | None]:
     names = {}
     for d in decls:
-        m = re.search(rf"^(?:(?:private|protected|nonrec)[ \t]+)*(?:theorem|lemma)[ \t]+(?:[\w.']+\.)?{re.escape(d)}\b",
+        base = d.split(".")[-1]
+        m = re.search(rf"^(?:(?:private|protected|nonrec)[ \t]+)*(?:theorem|lemma)[ \t]+((?:[\w.']+\.)?{re.escape(base)})\b",
                       text, re.M)
         if not m:
             rv.die(f"{d}: not found in {rel}")
         ns = rv.namespace_at(text, m.start())
-        names[d] = f"{ns}.{d}" if ns else d
+        # keep the name as declared, e.g. `Printed.foo_false`, so `#print axioms` finds it
+        names[d] = f"{ns}.{m.group(1)}" if ns else m.group(1)
     scratch = f"import {rv.module_name(rel)}\n" + "".join(f"#print axioms {n}\n" for n in names.values())
     srel = ".agent/rv/Axioms.lean"
     (wt / srel).parent.mkdir(parents=True, exist_ok=True)
@@ -86,9 +88,10 @@ def cmd_apply(a) -> None:
         rv.die(f"{a.decl}: {t}")
     if a.from_run:
         wins = json.loads((rv.STATE / "runs" / a.from_run / "wins.json").read_text())
-        if a.decl not in wins:
+        key = a.decl if a.decl in wins else a.decl.split(".")[-1]  # wins are keyed by the short name
+        if key not in wins:
             rv.die(f"run {a.from_run} has no win for {a.decl}")
-        proof, helpers, route, label = (wins[a.decl][k] for k in ("proof", "helpers", "route", "label"))
+        proof, helpers, route, label = (wins[key][k] for k in ("proof", "helpers", "route", "label"))
     else:
         if not a.route:
             rv.die("--proof-file needs --route (lean-only, model:<name>, private or human)")

@@ -1,83 +1,167 @@
 {
+ "Printed.spectralLineJet_cofinite_iff_coordinates_false": {
+  "decl": "Printed.spectralLineJet_cofinite_iff_coordinates_false",
+  "file": "RiemannMasullo/Ch10_TraceSpectral/Sec4b_CompletionIndices_Printed.lean",
+  "issue": 5417,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: the refutation must supply t k : ℕ ≃ lineZeros(χ (ω k), a) for every norm-one character, i.e. infinitely many critical-line zeros of every primitive Dirichlet L-function (Hardy-type infinitude); the library has only finitely many explicit zeta zeros (HardyTenZeros, RHHeight). Blocked on that input.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:19-05:00"
+ },
+ "Printed.spectralStripMellinJet_norm_le_false": {
+  "axioms": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 2.7,
+  "decl": "Printed.spectralStripMellinJet_norm_le_false",
+  "file": "RiemannMasullo/Ch10_TraceSpectral/Sec3_SpectralProof_Printed.lean",
+  "inherited_sorry": false,
+  "issue": 5367,
+  "model": "claude-opus-5-5",
+  "note": "Gate accepted 2026-11-23 ~15:05Z (axioms propext, Classical.choice, Quot.sound; no sorry); not claimed or PR'd: cobalt8814 opened PR #6697 (2026-11-23T14:37Z) changing this declaration (a split resting on a sorry'd zero-existence lemma), and upstream paused new claims at 14:10Z (#6674). Complete proof saved: runs/proof-5367-spectralStripMellinJet_norm_le_false-20261123.diff, candidate inbox/spectralStripMellinJet_norm_le_false.m04.lean (run 20261123-100501).",
+  "route": "model",
+  "state": "taken",
+  "updated": "2026-11-23T10:07:55-05:00"
+ },
  "existsUnique_sLocalNormOneQuotientTransition": {
   "decl": "existsUnique_sLocalNormOneQuotientTransition",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4289,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs the T-to-S norm-one quotient map with kernel = relative integral units, an open-mapping/Picard argument (6.2.1.1)",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
  },
  "exists_infiniteStandardThetaAverage": {
   "decl": "exists_infiniteStandardThetaAverage",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4308,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; norm-one archimedean ideles are non-compact when the unit rank is positive, so integrability needs Schwartz decay along the unit directions (finite analogue is proved via local constancy, which does not transfer)",
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
+ },
+ "globalConverse_normTwist_meromorphic_exact": {
+  "decl": "globalConverse_normTwist_meromorphic_exact",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 4456,
+  "note": "cycle 4 (2026-11-23): first pass missed; no model pass this cycle (Ch06 Sec3 already had its mid-tier pass, which also missed this target); large existence statement over Mellin image, residues and Bergman ideal.",
   "state": "stuck",
-  "updated": "2026-11-23T01:35:47-05:00"
+  "updated": "2026-11-23T10:08:20-05:00"
  },
  "globalPrincipalValueConverse_nontrivial": {
   "decl": "globalPrincipalValueConverse_nontrivial",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
   "issue": 4457,
-  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
-  "state": "open",
-  "updated": "2026-11-23T01:32:10-05:00"
+  "note": "claimed upstream by mlyle",
+  "state": "taken",
+  "updated": "2026-11-23T08:36:00-05:00"
  },
  "globalPrincipalValueConverse_normTwist": {
   "decl": "globalPrincipalValueConverse_normTwist",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
   "issue": 4458,
-  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
-  "state": "open",
-  "updated": "2026-11-23T01:32:10-05:00"
+  "note": "2026-11-23 preflight: issue #4458 no longer open upstream; local proof is not a bare sorry",
+  "state": "taken",
+  "updated": "2026-11-23T08:27:41-05:00"
  },
  "globalPrincipalValueConverse_normTwist_divided_exact": {
   "decl": "globalPrincipalValueConverse_normTwist_divided_exact",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
   "issue": 4462,
-  "note": "2026-11-23 not attempted: file skipped because one other contributor holds 5 of its 8 claims",
-  "state": "open",
-  "updated": "2026-11-23T01:32:31-05:00"
+  "note": "claimed upstream by mlyle",
+  "state": "taken",
+  "updated": "2026-11-23T08:36:00-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist_ker": {
+  "decl": "globalPrincipalValueConverse_normTwist_ker",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 6636,
+  "note": "claimed upstream by mlyle",
+  "state": "taken",
+  "updated": "2026-11-23T08:36:00-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist_mellin_map": {
+  "axioms": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "build_secs": 10.8,
+  "claimed_at": "2026-11-23T08:34:24-05:00",
+  "decl": "globalPrincipalValueConverse_normTwist_mellin_map",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "inherited_sorry": true,
+  "issue": 6632,
+  "model": "claude-opus-5-5",
+  "note": "Gate accepted (11s, sorryAx via globalConverse_normTwist); mlyle claimed first (13:04:31Z). Our duplicate claim released 2026-11-23T14:09:59Z. Proof saved in runs/proof-6632-mellin_map-20261123.diff; if mlyle's claim lapses with no PR (~21:04Z), claim and hand in.",
+  "route": "model",
+  "state": "taken",
+  "updated": "2026-11-23T09:10:10-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist_openMap": {
+  "decl": "globalPrincipalValueConverse_normTwist_openMap",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 6634,
+  "note": "claimed upstream by mlyle",
+  "state": "taken",
+  "updated": "2026-11-23T08:36:00-05:00"
+ },
+ "globalPrincipalValueConverse_normTwist_range": {
+  "decl": "globalPrincipalValueConverse_normTwist_range",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec3.lean",
+  "issue": 6633,
+  "note": "claimed upstream by mlyle",
+  "state": "taken",
+  "updated": "2026-11-23T08:36:00-05:00"
  },
  "globalThetaIsotypeSum_inherited_properties": {
   "decl": "globalThetaIsotypeSum_inherited_properties",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4300,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs general permanence of LF, nuclear, barrelled, Montel and strong-dual properties under countable locally convex direct sums, not in Mathlib or the repo",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
  },
  "globalThetaToHomogeneousProduct_not_isClosed_range": {
   "decl": "globalThetaToHomogeneousProduct_not_isClosed_range",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4301,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; nonclosed range needs an explicit sequence whose product image converges outside the range; file TODO(paper-gap) above it says the remark conflates two products",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
  },
  "infiniteStandardThetaAverage_forwardDecay": {
   "decl": "infiniteStandardThetaAverage_forwardDecay",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4318,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; analytic estimates (6.2.2.12) on the archimedean average, depend on the unproved existence of the average",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:47-05:00"
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
  },
  "infiniteStandardThetaAverage_integrable": {
   "decl": "infiniteStandardThetaAverage_integrable",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4306,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; norm-one archimedean ideles are non-compact when the unit rank is positive, so integrability needs Schwartz decay along the unit directions (finite analogue is proved via local constancy, which does not transfer)",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:47-05:00"
+  "note": "2026-11-23: private candidate c03 timed out at 600s in firstpass (run 20261123-081702-Sec2, not rerun); issue claimed by LeoVerto since 09:16:06Z",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
  },
  "infiniteStandardThetaAverage_logBound": {
   "decl": "infiniteStandardThetaAverage_logBound",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4319,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; analytic estimates (6.2.2.12) on the archimedean average, depend on the unproved existence of the average",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:47-05:00"
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
+ },
+ "introTrace_combined_limit_extension_analytic": {
+  "decl": "introTrace_combined_limit_extension_analytic",
+  "file": "RiemannMasullo/Ch01_Introduction/Sec4.lean",
+  "issue": 6401,
+  "note": "2026-11-23: statement false as written (integrator agreed); restatement PR #6466 open",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
  },
  "memLp_sLocalCarvingGenerator": {
   "decl": "memLp_sLocalCarvingGenerator",
@@ -86,6 +170,14 @@
   "note": "claimed by ADB991 upstream, PR #6127 open (rv preflight 2026-11-23); not attempted",
   "state": "taken",
   "updated": "2026-11-23T01:09:22-05:00"
+ },
+ "primeOrbitalSobolevConvolution_traceNorm_continuous": {
+  "decl": "primeOrbitalSobolevConvolution_traceNorm_continuous",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec2b.lean",
+  "issue": 5482,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: needs OrbA(φ) to be nuclear with trace norm continuous in φ (Thm 11.2.2.1); nothing in Ch11 Sec2b or below supplies trace-class membership of the convolution operators.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:19-05:00"
  },
  "sLocalAbsolutePW_globalSupport": {
   "axioms": [
@@ -128,9 +220,33 @@
   "decl": "sLocalCarvingLimit_eq_closedSpan",
   "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
   "issue": 5194,
-  "note": "Lean-only miss (run 20261123-010740-Sec1b). Model pass (mid) wrote no candidate: this is all of Theorem 11.1.2.1(3) (pp. 480-482), both inclusions between the iInf of cutoff stages and the closed span of S-local generators (11.1.2.7); no lemma above it in the file relates sLocalCutoffCarving to sLocalCarvingGenerator (sLocalCutoffCarving_eq_closure_map is below, at 1625), and the statement uses memLp_sLocalCarvingGenerator (#5193, sorry, claimed by another contributor with PR #6127). Revisit after #6127 lands, via a lemma pass on the generator/stage correspondence.",
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
+ },
+ "sLocalCarvingLimit_eq_closedSpan_generator_mem": {
+  "decl": "sLocalCarvingLimit_eq_closedSpan_generator_mem",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
+  "issue": 6440,
+  "note": "cycle 4 (2026-11-23): first pass missed; no model pass (Ch11 Sec1b already had one on the parent sLocalCarvingLimit_eq_closedSpan); docstring names the missing input: Prop 11.1.1.2 for the extension by unit ideles outside S.",
   "state": "stuck",
-  "updated": "2026-11-23T01:09:18-05:00"
+  "updated": "2026-11-23T10:08:20-05:00"
+ },
+ "sLocalCarvingLimit_eq_closedSpan_le": {
+  "decl": "sLocalCarvingLimit_eq_closedSpan_le",
+  "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
+  "issue": 6441,
+  "note": "cycle 4 (2026-11-23): first pass missed; no model pass (Ch11 Sec1b already had one on the parent); docstring names the missing input: R_{Λ,S} is never defined and the approximation by projected local generators is not established.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:20-05:00"
+ },
+ "sLocalHomogeneousTheta_projections": {
+  "decl": "sLocalHomogeneousTheta_projections",
+  "file": "RiemannMasullo/Ch05_ThetaZSpaces/Sec2b.lean",
+  "issue": 4109,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: needs continuous idempotents onto each stage image and uniform convergence on bounded sets; no stage-projection construction exists in Ch05 Sec2b.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:20-05:00"
  },
  "sLocalInvariantPW_globalSupport": {
   "axioms": [
@@ -169,37 +285,53 @@
   "state": "merged",
   "updated": "2026-11-23T01:07:10-05:00"
  },
+ "sLocalOrbitalFourierJet_lattice_schwartz": {
+  "decl": "sLocalOrbitalFourierJet_lattice_schwartz",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3a.lean",
+  "issue": 4609,
+  "note": "2026-11-23: open PR #6194 by cobalt8814 splits it",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
+ },
+ "sLocalPWOrbital_bases": {
+  "decl": "sLocalPWOrbital_bases",
+  "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec3b.lean",
+  "issue": 4756,
+  "note": "cycle 4 (2026-11-23): first pass missed; no model pass (Ch07 Sec3b already had its mid-tier pass); Thm 7.3.3.4(1)-(2) unconditional/absolute Schauder bases on the PW levels, depends on several claimed open issues in the same file.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:20-05:00"
+ },
  "sLocalPolarPrincipalValue_tfae": {
   "decl": "sLocalPolarPrincipalValue_tfae",
   "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec2.lean",
   "issue": 4558,
-  "note": "Cor 7.2.2.2; polar-subspace variant of Prop 7.2.2.1 and needs the same missing image characterization (Ch07/Sec3a sLocalThetaPoleBound_le_orbitalPrincipalValue, sorry), plus the polar-subspace facts sAdelePolarValues_isLinear / sAdeleSchwartzToGlobal_mem_polarSubspace (claimed by another contributor, PR #5974). Lean-only pass 0/5; mid pass wrote no candidate.",
-  "state": "stuck",
-  "updated": "2026-11-23T01:31:12-05:00"
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
  },
  "sLocalPrincipalValue_tfae": {
   "decl": "sLocalPrincipalValue_tfae",
   "file": "RiemannMasullo/Ch07_SchauderBasesZeta/Sec2.lean",
   "issue": 4554,
-  "note": "Prop 7.2.2.1. (1)=>(3) is the reverse inclusion of Thm 7.3.1.2(1), still sorry downstream (Ch07/Sec3a sLocalThetaPoleBound_le_orbitalPrincipalValue); the easy inclusion sLocalOrbitalPrincipalValue_eq_poleBound_le lives in Sec3a, which imports Sec2. (4) needs the global principal-value image (Ch05/Sec3a). Lean-only pass 0/5 tactics; mid pass wrote no candidate.",
-  "state": "stuck",
-  "updated": "2026-11-23T01:31:12-05:00"
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
  },
  "sLocalStandardThetaTensor_quotient_equiv": {
   "decl": "sLocalStandardThetaTensor_quotient_equiv",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4317,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; core of Thm 6.2.2.1: open quotient / iso onto homogeneous quotient through the standard finite tensor factor",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
  },
  "sLocalStandardThetaTensor_toGlobal_openQuotient": {
   "decl": "sLocalStandardThetaTensor_toGlobal_openQuotient",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4305,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; core of Thm 6.2.2.1: open quotient / iso onto homogeneous quotient through the standard finite tensor factor",
-  "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "note": "2026-11-23 13:40Z: claimed upstream by others (comment claims: wpolitarczyk, troyjlee, sophiebits, FraFrieFa, LeoVerto)",
+  "state": "taken",
+  "updated": "2026-11-23T08:39:00-05:00"
  },
  "sLocalThetaIsotypeSum_complete": {
   "axioms": [
@@ -223,16 +355,48 @@
   "decl": "sLocalThetaIsotypeSum_inherited_properties",
   "file": "RiemannMasullo/Ch06_LocalGlobal/Sec2.lean",
   "issue": 4299,
-  "note": "Ch06 Sec2 2026-11-23: Lean-only pass 0/5; one mid pass wrote no candidate; needs general permanence of LF, nuclear, barrelled, Montel and strong-dual properties under countable locally convex direct sums, not in Mathlib or the repo",
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
+ },
+ "sLocalThetaPrincipalValue_isClosedEmbedding": {
+  "decl": "sLocalThetaPrincipalValue_isClosedEmbedding",
+  "file": "RiemannMasullo/Ch05_ThetaZSpaces/Sec3a.lean",
+  "issue": 4156,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: the file's TODO(paper-gap) says closedness of range P + K and continuity of the inverse are not established by the printed argument; no route found.",
   "state": "stuck",
-  "updated": "2026-11-23T01:35:46-05:00"
+  "updated": "2026-11-23T10:08:20-05:00"
+ },
+ "sLocalThetaTransition_range_eq_invariants": {
+  "decl": "sLocalThetaTransition_range_eq_invariants",
+  "file": "RiemannMasullo/Ch06_LocalGlobal/Sec1.lean",
+  "issue": 4268,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: no route found; the file's TODO(paper-gap) above it says the printed proof of Thm 6.1.2.1 has mismatched indices and an unproved LF Cauchy-net step.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:19-05:00"
  },
  "sLocalUncutCarving_lt": {
   "decl": "sLocalUncutCarving_lt",
   "file": "RiemannMasullo/Ch11_ShellStructure/Sec1b.lean",
   "issue": 5186,
-  "note": "Lean-only miss (run 20261123-010740-Sec1b; exact? hit heartbeat timeout). Model pass (mid) wrote no candidate: le would follow like sLocalCutoffCarving_antitone (uncut analogue of _antitone_range), but strictness needs an explicit polar-free test in the i-stage outside the closed i'-stage (Mellin evaluation at a new Euler factor zero at p); nothing in the file supplies it, and upstream's TODO(paper-gap) above the statement says the p.482 basis argument needs s >= 2*card(i'), not the degree bound. Needs a lemma pass or the paper gap resolved.",
+  "note": "2026-11-23 13:40Z: issue closed upstream by others",
+  "state": "taken",
+  "updated": "2026-11-23T08:38:53-05:00"
+ },
+ "testFunction_inductiveTensor_equiv": {
+  "decl": "testFunction_inductiveTensor_equiv",
+  "file": "RiemannMasullo/Ch05_ThetaZSpaces/Sec3a.lean",
+  "issue": 4183,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: needs the completed inductive tensor product of test-function spaces to be the test space on the product; no density or completion infrastructure for InductiveTensor in Ch05 Sec3a.",
   "state": "stuck",
-  "updated": "2026-11-23T01:09:18-05:00"
+  "updated": "2026-11-23T10:08:20-05:00"
+ },
+ "wirtinger_puncturedTest_closedRange": {
+  "decl": "wirtinger_puncturedTest_closedRange",
+  "file": "RiemannMasullo/Ch05_ThetaZSpaces/Sec3b.lean",
+  "issue": 4205,
+  "note": "cycle 4 (2026-11-23): first pass missed; model pass: 2D analogue of iteratedDeriv_puncturedTest_closedRange; needs compactly supported solvability of the Wirtinger equations on ℂ∖{0} with Laurent-moment conditions (Cauchy–Pompeiu), absent from the library.",
+  "state": "stuck",
+  "updated": "2026-11-23T10:08:20-05:00"
  }
 }

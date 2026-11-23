@@ -245,8 +245,9 @@ def main() -> None:
             if r["label"] == GOAL:
                 (rundir / f"goal-{r['decl']}.txt").write_text(r["detail"], encoding="utf-8")
                 continue
-            rv.append("attempts.jsonl", {"ts": rv.now(), "type": "try", "run": run, "decl": r["decl"],
-                                         "issue": issues.get(r["decl"]), "file": a.file, "sha": sha,
+            key = rv.ledger_key(r["decl"], a.file)
+            rv.append("attempts.jsonl", {"ts": rv.now(), "type": "try", "run": run, "decl": key,
+                                         "issue": issues.get(r["decl"], issues.get(key)), "file": a.file, "sha": sha,
                                          "route": route, "tier": tier, "label": r["label"],
                                          "result": r["result"], "detail": rv.short(r["detail"], 300)})
             if r["result"] == "win":
